@@ -8,6 +8,31 @@
       "name": "generating-apex-test-httpmocks",
       "description": "Generate Apex test classes for HTTP callout code using the self-shunt pattern",
       "path": "skills/generating-apex-test-httpmocks/SKILL.md"
+    },
+    {
+      "name": "clean-apex-naming",
+      "description": "Apply Clean Code naming principles to Apex — intention-revealing names, no encodings, one word per concept",
+      "path": "skills/clean-apex-naming/SKILL.md"
+    },
+    {
+      "name": "clean-apex-functions",
+      "description": "Apply Clean Code function principles to Apex methods — small, one thing, few arguments, no flag args, no side effects, CQS",
+      "path": "skills/clean-apex-functions/SKILL.md"
+    },
+    {
+      "name": "clean-apex-comments",
+      "description": "Apply Clean Code comment principles to Apex — express intent in code, delete noise, keep only legitimate comments",
+      "path": "skills/clean-apex-comments/SKILL.md"
+    },
+    {
+      "name": "clean-apex-error-handling",
+      "description": "Apply Clean Code error-handling principles to Apex — exceptions over flags, custom types, no nulls, separate error from logic",
+      "path": "skills/clean-apex-error-handling/SKILL.md"
+    },
+    {
+      "name": "reviewing-apex",
+      "description": "Review existing Apex against Clean Code smells and heuristics — duplication, God classes, magic numbers, test quality, Apex architecture",
+      "path": "skills/reviewing-apex/SKILL.md"
     }
   ]
 }
