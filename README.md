@@ -2,6 +2,28 @@
 
 Public Salesforce AI skills for use with Claude Code and compatible skill runners.
 
+## Installation
+
+```bash
+npx skills add tonygward/salesforce-skills --yes
+```
+
+## Usage
+
+Once installed, invoke a skill by name in your Claude Code session:
+
+```
+/salesforce-naming-things
+/salesforce-code-comments
+/salesforce-writing-tests
+/salesforce-tests-as-specification
+/salesforce-tdd-workflow
+/generating-apex-test-httpmocks
+/clean-apex-functions
+/clean-apex-error-handling
+/reviewing-apex
+```
+
 ## Skills
 
 ### Salesforce Fundamentals
@@ -30,28 +52,7 @@ Adapted from *Clean Code* (Robert C. Martin) — authoring skills applied as you
 | `clean-apex-error-handling` | Ch 7 — Error Handling | Callouts, DML services, exceptions, null handling |
 | `reviewing-apex` | Ch 17 + 6, 9, 10 | Reviewing or critiquing existing Apex code |
 
-## Installation
-
-```bash
-npx skills add tonygward/salesforce-skills --yes
-```
-
-## Usage
-
-Once installed, invoke a skill by name in your Claude Code session:
-
-```
-/salesforce-naming-things
-/salesforce-code-comments
-/salesforce-writing-tests
-/salesforce-tests-as-specification
-/salesforce-tdd-workflow
-/generating-apex-test-httpmocks
-/clean-apex-functions
-/clean-apex-error-handling
-/reviewing-apex
-```
 
 ## Contributing
 
-Each skill lives in `skills/<name>/SKILL.md`. PRs welcome.
+Each skill lives in `skills/<name>/SKILL.md`.
