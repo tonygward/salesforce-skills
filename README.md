@@ -4,10 +4,20 @@ Public Salesforce AI skills for use with Claude Code and compatible skill runner
 
 ## Skills
 
-### Test Generation
+### Salesforce Fundamentals
 
 | Skill | Description |
 |---|---|
+| `salesforce-naming-things` | Naming conventions for Apex and LWC — intent-revealing names, Salesforce conventions, test method naming |
+| `salesforce-code-comments` | When and how to comment Salesforce code — the why-not-how rule, ApexDoc/JSDoc, avoiding noise |
+
+### Testing
+
+| Skill | Description |
+|---|---|
+| `salesforce-writing-tests` | Write high-quality Apex and LWC Jest tests — FIRST principles, Assert class, bulk testing, mocking |
+| `salesforce-tests-as-specification` | Tests as a living spec — one rule per test, Given/When/Then, boundary cases |
+| `salesforce-tdd-workflow` | TDD workflow for Salesforce — red/green/refactor, three laws of TDD, one change at a time |
 | `generating-apex-test-httpmocks` | Generate Apex test classes for HTTP callout code using the self-shunt pattern |
 
 ### Clean Code for Apex
@@ -33,6 +43,11 @@ npx skills add tonygward/salesforce-skills --yes
 Once installed, invoke a skill by name in your Claude Code session:
 
 ```
+/salesforce-naming-things
+/salesforce-code-comments
+/salesforce-writing-tests
+/salesforce-tests-as-specification
+/salesforce-tdd-workflow
 /generating-apex-test-httpmocks
 /clean-apex-naming
 /clean-apex-functions

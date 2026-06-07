@@ -5,6 +5,31 @@
   "author": "tonygward",
   "skills": [
     {
+      "name": "salesforce-naming-things",
+      "description": "Naming and readability conventions for Salesforce code — Apex classes/methods/variables, LWC components, and test methods",
+      "path": "skills/salesforce-naming-things/SKILL.md"
+    },
+    {
+      "name": "salesforce-code-comments",
+      "description": "When and how to comment Salesforce code (Apex and LWC) — the why-not-how rule, ApexDoc/JSDoc, and avoiding noise",
+      "path": "skills/salesforce-code-comments/SKILL.md"
+    },
+    {
+      "name": "salesforce-writing-tests",
+      "description": "How to write high-quality Salesforce tests (Apex and LWC Jest) — FIRST principles, Assert class, bulk testing, mocking",
+      "path": "skills/salesforce-writing-tests/SKILL.md"
+    },
+    {
+      "name": "salesforce-tests-as-specification",
+      "description": "Write Salesforce tests that act as a living specification — one rule per test, Given/When/Then, boundary cases",
+      "path": "skills/salesforce-tests-as-specification/SKILL.md"
+    },
+    {
+      "name": "salesforce-tdd-workflow",
+      "description": "Test-Driven Development workflow for Salesforce — red/green/refactor, three laws of TDD, one change at a time",
+      "path": "skills/salesforce-tdd-workflow/SKILL.md"
+    },
+    {
       "name": "generating-apex-test-httpmocks",
       "description": "Generate Apex test classes for HTTP callout code using the self-shunt pattern",
       "path": "skills/generating-apex-test-httpmocks/SKILL.md"
