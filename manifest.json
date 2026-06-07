@@ -1,0 +1,13 @@
+{
+  "name": "tony-salesforce-skills",
+  "version": "1.0.0",
+  "description": "Public Salesforce AI skills by Tony Ward",
+  "author": "tonygward",
+  "skills": [
+    {
+      "name": "generating-apex-test-httpmocks",
+      "description": "Generate Apex test classes for HTTP callout code using the self-shunt pattern",
+      "path": "skills/generating-apex-test-httpmocks/SKILL.md"
+    }
+  ]
+}
