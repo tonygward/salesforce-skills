@@ -133,7 +133,7 @@ Passing `null` into a method is even worse than returning it. Validate at the pu
 // Good — fail fast at the boundary
 public void scheduleRenewal(Opportunity opportunity) {
     if (opportunity == null) {
-        throw new IllegalArgumentException('opportunity must not be null');
+        throw new Exception('opportunity must not be null');
     }
     ...
 }

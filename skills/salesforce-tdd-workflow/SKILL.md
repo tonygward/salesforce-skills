@@ -62,7 +62,7 @@ public static Boolean isLeapYear(Integer year) {
 ## LWC notes
 
 The same loop applies with Jest: write a failing `it(...)`, render the component or call the
-function, make it pass, then refactor markup/JS. Keep the watch runner (`sfdx-lwc-jest --watch`)
+function, make it pass, then refactor markup/JS. Keep the watch runner (`npm run test:unit:watch`)
 on so red/green is instant.
 
 ## Checklist

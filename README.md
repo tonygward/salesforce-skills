@@ -8,8 +8,8 @@ Public Salesforce AI skills for use with Claude Code and compatible skill runner
 
 | Skill | Description |
 |---|---|
-| `salesforce-naming-things` | Naming conventions for Apex and LWC — intent-revealing names, Salesforce conventions, test method naming |
-| `salesforce-code-comments` | When and how to comment Salesforce code — the why-not-how rule, ApexDoc/JSDoc, avoiding noise |
+| `salesforce-naming-things` | Naming conventions for Apex and LWC — intent-revealing names, no encodings, Salesforce conventions |
+| `salesforce-code-comments` | When and how to comment Salesforce code — the why-not-how rule, ApexDoc/JSDoc, what to delete |
 
 ### Testing
 
@@ -26,9 +26,7 @@ Adapted from *Clean Code* (Robert C. Martin) — authoring skills applied as you
 
 | Skill | Source | Use when |
 |---|---|---|
-| `clean-apex-naming` | Ch 2 — Meaningful Names | Writing or renaming variables, methods, classes, constants |
 | `clean-apex-functions` | Ch 3 — Functions | Writing or refactoring methods, handlers, service logic |
-| `clean-apex-comments` | Ch 4 — Comments | Writing or cleaning up comments; removing dead code |
 | `clean-apex-error-handling` | Ch 7 — Error Handling | Callouts, DML services, exceptions, null handling |
 | `reviewing-apex` | Ch 17 + 6, 9, 10 | Reviewing or critiquing existing Apex code |
 
@@ -49,9 +47,7 @@ Once installed, invoke a skill by name in your Claude Code session:
 /salesforce-tests-as-specification
 /salesforce-tdd-workflow
 /generating-apex-test-httpmocks
-/clean-apex-naming
 /clean-apex-functions
-/clean-apex-comments
 /clean-apex-error-handling
 /reviewing-apex
 ```

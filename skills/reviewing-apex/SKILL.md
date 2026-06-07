@@ -131,7 +131,7 @@ Apply when reviewing `*Test` classes:
 - **C3 — Redundant comments** — restate the code; delete.
 - **Noise ApexDoc on private methods** — boilerplate that will go stale.
 
-*(For the full policy, defer to `clean-apex-comments`.)*
+*(For the full policy, defer to `salesforce-code-comments`.)*
 
 ---
 

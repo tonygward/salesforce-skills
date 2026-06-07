@@ -6,12 +6,12 @@
   "skills": [
     {
       "name": "salesforce-naming-things",
-      "description": "Naming and readability conventions for Salesforce code — Apex classes/methods/variables, LWC components, and test methods",
+      "description": "Naming conventions for Apex and LWC — intent-revealing names, no encodings, one word per concept, Salesforce conventions table",
       "path": "skills/salesforce-naming-things/SKILL.md"
     },
     {
       "name": "salesforce-code-comments",
-      "description": "When and how to comment Salesforce code (Apex and LWC) — the why-not-how rule, ApexDoc/JSDoc, and avoiding noise",
+      "description": "When and how to comment Salesforce code (Apex and LWC) — the why-not-how rule, ApexDoc/JSDoc, and what to delete",
       "path": "skills/salesforce-code-comments/SKILL.md"
     },
     {
@@ -26,7 +26,7 @@
     },
     {
       "name": "salesforce-tdd-workflow",
-      "description": "Test-Driven Development workflow for Salesforce — red/green/refactor, three laws of TDD, one change at a time",
+      "description": "TDD workflow for Salesforce — red/green/refactor, three laws of TDD, one change at a time",
       "path": "skills/salesforce-tdd-workflow/SKILL.md"
     },
     {
@@ -35,19 +35,9 @@
       "path": "skills/generating-apex-test-httpmocks/SKILL.md"
     },
     {
-      "name": "clean-apex-naming",
-      "description": "Apply Clean Code naming principles to Apex — intention-revealing names, no encodings, one word per concept",
-      "path": "skills/clean-apex-naming/SKILL.md"
-    },
-    {
       "name": "clean-apex-functions",
       "description": "Apply Clean Code function principles to Apex methods — small, one thing, few arguments, no flag args, no side effects, CQS",
       "path": "skills/clean-apex-functions/SKILL.md"
-    },
-    {
-      "name": "clean-apex-comments",
-      "description": "Apply Clean Code comment principles to Apex — express intent in code, delete noise, keep only legitimate comments",
-      "path": "skills/clean-apex-comments/SKILL.md"
     },
     {
       "name": "clean-apex-error-handling",

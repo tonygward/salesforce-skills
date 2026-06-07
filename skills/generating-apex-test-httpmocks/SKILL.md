@@ -253,7 +253,7 @@ Match the API version of the class under test. Default to `66.0`.
 
 ## Relationship to Base Skill
 
-This skill **extends** `generating-apex-test`. All base skill rules apply:
+This skill **extends** `generating-apex-test` (an Agentforce skill). All base skill rules apply:
 
 - `Assert` class only
 - Given/When/Then structure

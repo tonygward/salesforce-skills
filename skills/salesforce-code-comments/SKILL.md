@@ -1,47 +1,103 @@
 ---
 name: salesforce-code-comments
-description: When and how to comment Salesforce code (Apex and LWC) - ApexDoc/JSDoc, the "why not how" rule, and avoiding noise. Use when writing or reviewing comments or documentation in Salesforce code.
+description: When and how to comment Salesforce code (Apex and LWC) — the why-not-how rule, legitimate vs. noise comments, ApexDoc/JSDoc on public APIs, and what to delete. Use when writing, reviewing, or cleaning up comments in Apex or LWC. Do NOT use for naming (salesforce-naming-things) or method structure (clean-apex-functions).
 ---
 
 # Comments in Salesforce Code
 
 > "Code tells you **how**, comments tell you **why**." — Jeff Atwood
 
-The code already shows *how* it works. A comment earns its place only by explaining *why* —
-something the code itself cannot say.
+A comment is an admission that the code failed to express itself. The goal is not to comment well but to make comments unnecessary. Comments lie over time: code moves and changes, comments do not follow — a stale comment is worse than none.
 
-## Prefer clearer code over a comment
+**Default position:** express intent in code, not in a comment. Reach for a comment only when the *why* genuinely lives outside the code.
 
-The classic solution to code that is hard to understand is **not** to add a comment — it's to
-make the code clearer: better names, a well-named helper method, a guard clause. Reach for a
-comment only when the *why* genuinely lives outside the code.
+---
+
+## Express Yourself in Code First
+
+Before writing a comment, try to make it redundant — better names, a well-named helper method, a guard clause.
 
 ```apex
-// Noise — the code already says this
-i = i + 1; // increment i
+// Bad — comment compensates for an opaque condition
+// Check if the account is an active enterprise customer eligible for renewal
+if (acc.Status__c == 'Active' && acc.Tier__c == 'Enterprise' && acc.Contract_End__c != null) { ... }
 
-// Better — no comment needed
-recordsProcessed++;
-
-// Worth keeping — explains a non-obvious WHY
-// 400-year rule: the Gregorian calendar drops 3 leap days every 400 years
-// to stay aligned with the solar year. Without this, 1900 and 2100 are wrong.
-if (Math.mod(year, 400) == 0) return true;
+// Good — the code says it
+if (isRenewableEnterpriseAccount(acc)) { ... }
 ```
 
-## Good reasons to comment in Salesforce
+---
 
-- **Business / regulatory rules** that aren't obvious from the code.
-- **Governor-limit workarounds** (e.g. why work is chunked, why a query is shaped oddly).
-- **Order-of-execution gotchas** (trigger recursion guards, `@future` vs Queueable choices).
-- **Why a "wrong-looking" approach is intentional** (e.g. a `SeeAllData` exception, a hard-coded ID
-  with a link to the reason).
-- **TODO/FIXME** with a ticket reference, not a vague note.
+## Legitimate Comments (keep these)
+
+1. **Business / regulatory rules** that aren't obvious from the code.
+2. **Governor-limit workarounds** — why work is chunked, why a query is shaped oddly.
+3. **Order-of-execution gotchas** — trigger recursion guards, `@future` vs Queueable choices.
+4. **Warning of consequences** — a non-obvious hazard, e.g. "Do not call from a trigger context — will exceed CPU limits on bulk loads."
+5. **Why a "wrong-looking" approach is intentional** — with a link to the tracked reason.
+6. **TODO comments** — only when tied to a tracked work item: `// TODO [W-04821]: replace with Platform Event once the bus is live`. A freestanding `// TODO: fix this` is noise.
+7. **ApexDoc on public / global APIs** — public/global methods in a shared library or managed package benefit from ApexDoc so consumers get intent without reading the body.
+8. **JSDoc on exported LWC functions and `@api` properties** — documents the contract for callers.
+
+---
+
+## Bad Comments (remove or prevent)
+
+### Commented-out code — delete it
+
+The most common offender in Salesforce codebases. Version control remembers it. Delete it.
+
+```apex
+// Bad
+// List<Account> accs = [SELECT Id, Name, Old_Field__c FROM Account];   ← delete
+List<Account> accounts = [SELECT Id, Name FROM Account WHERE IsActive__c = true];
+```
+
+### Redundant comments — delete them
+
+A comment that restates the code adds reading cost and will go stale.
+
+```apex
+// Bad
+// increment the counter
+counter++;
+
+// the account id
+Id accountId;
+```
+
+### Noise ApexDoc on internal methods — don't generate it
+
+Do not auto-generate ApexDoc on every private or internal method. Reserve ApexDoc for genuine public APIs.
+
+```apex
+// Bad — noise on an internal method
+/**
+ * @description Returns the account name
+ * @param account The account
+ * @return String The name
+ */
+private String getAccountName(Account account) {
+    return account.Name;
+}
+
+// Good — no comment needed
+private String getAccountName(Account account) {
+    return account.Name;
+}
+```
+
+### Journal / attribution comments — delete them
+
+`// Modified 2019-03-12 by JB` belongs in Git history, not the source file.
+
+### Position markers and closing-brace comments — delete them
+
+`// ===== HELPERS =====` banners and `} // end for` markers signal the class or method is too large. Fix the size, don't annotate it.
+
+---
 
 ## Public APIs: document the contract
-
-Use **ApexDoc** on public/global Apex and **JSDoc** on exported LWC functions/`@api` properties —
-this is the *why/what* for callers, not how.
 
 ```apex
 /**
@@ -60,15 +116,37 @@ public static Boolean isLeapYear(Integer year) { ... }
 @api year;
 ```
 
-## Avoid
+---
 
-- Comments that restate the code.
-- Commented-out code — delete it; version control remembers.
-- Stale comments — a wrong comment is worse than none. Update or remove when code changes.
+## Decision Flow
 
-## Checklist
+```
+Need to write a comment?
+  │
+  ├─ Can I rename or extract to make it unnecessary?  → do that instead
+  │
+  ├─ Is it: business rule / limit workaround / warning / tracked-TODO / public-API doc?  → keep, concise
+  │
+  └─ Otherwise  → don't write it
+```
 
-- [ ] Each comment explains *why*, not *how*.
-- [ ] Tried clearer naming/extraction before reaching for a comment.
-- [ ] Public Apex/LWC APIs documented with ApexDoc/JSDoc.
-- [ ] No commented-out code or stale comments left behind.
+---
+
+## Apex-Specific Notes
+
+- **`@deprecated`** is a real annotation — use it on superseded global methods rather than a `// don't use this` comment.
+- **Git is your journal.** Source-driven development means in-file change-log blocks are redundant. Delete legacy attribution comments on sight.
+
+---
+
+## Quick Checklist
+
+- [ ] Each comment explains *why*, not *how*
+- [ ] Tried clearer naming or extraction before reaching for a comment
+- [ ] No commented-out code (Git remembers it)
+- [ ] No comments that restate the code
+- [ ] No auto-ApexDoc on private / internal methods
+- [ ] No journal / attribution / change-log blocks
+- [ ] No banner or closing-brace markers
+- [ ] TODOs reference a tracked work item
+- [ ] Public Apex / LWC APIs documented with ApexDoc / JSDoc
