@@ -11,7 +11,7 @@ Public Salesforce AI skills for use with Claude Code and compatible skill runner
 ## Installation
 
 ```bash
-npx skills add tonygward/tony-salesforce-skills
+npx skills add tonygward/salesforce-skills
 ```
 
 ## Usage
