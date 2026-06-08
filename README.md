@@ -23,6 +23,7 @@ Once installed, invoke a skill by name in your Claude Code session:
 /clean-apex-error-handling
 /reviewing-apex
 /apex-connascence
+/apex-solid-design
 ```
 
 ## Skills
@@ -58,6 +59,12 @@ Adapted from *Clean Code* (Robert C. Martin) — authoring skills applied as you
 | Skill | Source | Use when |
 |---|---|---|
 | `apex-connascence` | Page-Jones / Weirich — connascence | Judging how coupled code is, why a change rippled, or prioritising coupling refactors by strength/degree/locality |
+
+### Design
+
+| Skill | Source | Use when |
+|---|---|---|
+| `apex-solid-design` | Robert C. Martin — SOLID | Designing class responsibilities and interfaces, making a class testable/mockable, or refactoring a class that does too much (SRP/OCP/LSP/ISP/DIP) |
 
 
 ## Exercises
