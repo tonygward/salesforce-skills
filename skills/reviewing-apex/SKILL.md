@@ -73,6 +73,24 @@ In Apex this also appears as deep parent-field SOQL traversal (`Account.Parent.P
 
 ---
 
+## Coupling: Connascence
+
+For coupling findings, name the *kind* and rank by **strength × degree × locality** — that decides severity. Two components are connascent if changing one forces a change in the other.
+
+| Form (weak → strong) | Smell in review | Fix direction |
+|----------------------|-----------------|---------------|
+| Meaning (CoM) | Magic picklist string / hardcoded Id / status int (also G25) | Constant / enum / Custom Metadata → Name |
+| Position (CoP) | Long positional parameter lists (also F1) | Argument object → Name |
+| Algorithm (CoA) | Same calc or serialisation contract duplicated two ways (also G5) | One shared method / one contract |
+| Execution order (CoE) | "Must call X before Y"; recursion-guard ordering | Make order-independent or enforce in one method |
+| Timing (CoTi) | Callout-before-DML, Mixed DML, `@future`/Queueable races | Make async boundaries explicit |
+| Value (CoV) | Fields that must change together (date ranges, totals) scattered | Encapsulate the invariant in one place |
+| Identity (CoI) | Mutating a re-queried record instead of `Trigger.new` → silent lost update | Operate on the single persisted instance |
+
+**Two rules to apply:** strong connascence is only acceptable when it is *local* (within one short method) — flag it across class/integration boundaries; and collapse **high-degree** coupling (a value known in forty places) by routing everyone through one definition. The dynamic forms (CoE/CoTi/CoV/CoI) fail silently in production, so rank them above the static ones. For the full taxonomy and conversions, see `apex-connascence`.
+
+---
+
 ## Class Smells (Ch 10)
 
 ### God class / Single Responsibility violation

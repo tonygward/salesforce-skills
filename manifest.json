@@ -48,6 +48,11 @@
       "name": "reviewing-apex",
       "description": "Review existing Apex against Clean Code smells and heuristics — duplication, God classes, magic numbers, test quality, Apex architecture",
       "path": "skills/reviewing-apex/SKILL.md"
+    },
+    {
+      "name": "apex-connascence",
+      "description": "Analyse and reduce coupling in Apex and LWC using connascence — a strength-ranked taxonomy (name, type, meaning, position, algorithm, execution, timing, value, identity) judged by strength, degree, and locality",
+      "path": "skills/apex-connascence/SKILL.md"
     }
   ]
 }

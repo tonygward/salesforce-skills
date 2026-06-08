@@ -73,6 +73,8 @@ public class TaskRequest {
 public void createTask(TaskRequest request) { ... }
 ```
 
+In coupling terms this trades *connascence of position* (callers must remember the argument order) for the much weaker *connascence of name* — see `apex-connascence`.
+
 ### 4. No flag arguments
 
 A Boolean parameter that switches behaviour means the method does more than one thing. Split it into two intention-revealing methods.

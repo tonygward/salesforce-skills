@@ -22,6 +22,7 @@ Once installed, invoke a skill by name in your Claude Code session:
 /clean-apex-functions
 /clean-apex-error-handling
 /reviewing-apex
+/apex-connascence
 ```
 
 ## Skills
@@ -51,6 +52,12 @@ Adapted from *Clean Code* (Robert C. Martin) — authoring skills applied as you
 | `clean-apex-functions` | Ch 3 — Functions | Writing or refactoring methods, handlers, service logic |
 | `clean-apex-error-handling` | Ch 7 — Error Handling | Callouts, DML services, exceptions, null handling |
 | `reviewing-apex` | Ch 17 + 6, 9, 10 | Reviewing or critiquing existing Apex code |
+
+### Coupling
+
+| Skill | Source | Use when |
+|---|---|---|
+| `apex-connascence` | Page-Jones / Weirich — connascence | Judging how coupled code is, why a change rippled, or prioritising coupling refactors by strength/degree/locality |
 
 
 ## Exercises
