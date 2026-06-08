@@ -1,6 +1,6 @@
 ---
 name: clean-apex-functions
-description: "Apply Clean Code function principles to Apex methods. Use this skill when writing or refactoring Apex methods, trigger handlers, or service-layer logic: keep methods small and doing one thing, one level of abstraction per method, no flag (Boolean) arguments, few parameters (prefer an argument object), no side effects, and command-query separation. Triggers when generating Apex methods, when a method grows long or takes many arguments, or when a user asks to refactor or simplify Apex logic. Do NOT use for naming-only changes (clean-apex-naming) or error-handling structure (clean-apex-error-handling)."
+description: "Apply Clean Code function principles to Apex methods. Use this skill when writing or refactoring Apex methods, trigger handlers, or service-layer logic: keep methods small and doing one thing, one level of abstraction per method, no flag (Boolean) arguments, few parameters (prefer an argument object), no side effects, and command-query separation. Triggers when generating Apex methods, when a method grows long or takes many arguments, or when a user asks to refactor or simplify Apex logic. Do NOT use for naming-only changes (salesforce-naming-things) or error-handling structure (clean-apex-error-handling)."
 metadata:
   version: "1.0"
   source: "Clean Code (Robert C. Martin), Chapter 3 — Functions"

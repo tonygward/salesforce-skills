@@ -53,6 +53,27 @@ Adapted from *Clean Code* (Robert C. Martin) — authoring skills applied as you
 | `reviewing-apex` | Ch 17 + 6, 9, 10 | Reviewing or critiquing existing Apex code |
 
 
+## Exercises
+
+`salesforce-tdd-workflow` ships with seven Apex TDD katas in
+[`skills/salesforce-tdd-workflow/exercises/`](skills/salesforce-tdd-workflow/exercises/).
+These are **practice specs, not skills** — work them by hand, assertion-first, one
+RED → GREEN → REFACTOR cycle at a time, to build test-driving muscle memory.
+
+| Exercise | Practises |
+|---|---|
+| FizzBuzz | Rules-as-data, avoiding conditionals, CMDT-style config thinking |
+| Leap year | Pure boundary testing; one branch per test |
+| Word wrap | Triangulation on a string algorithm; greedy fill |
+| Word frequency | Normalisation rules; output-structure design |
+| Expression evaluator | Emergent design — trivial grows into a parser |
+| Billing engine | Strategy via polymorphism; rounding/peak boundaries |
+| Shipping calculator | Availability vs cost; typed exceptions; interacting constraints |
+
+The last two are Salesforce-shaped (usage-rated pricing, order fulfilment) and are the
+highest-value practice. See the [exercises README](skills/salesforce-tdd-workflow/exercises/README.md)
+for how to use them.
+
 ## Contributing
 
 Each skill lives in `skills/<name>/SKILL.md`.

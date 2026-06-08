@@ -13,7 +13,7 @@ Example input:
 There's a hole in the bucket, dear Liza, dear Liza,
 There's a hole in the bucket, dear Liza, a hole.
 ```
-should report `a → 3`, `bucket → 2`, `dear → 3`, `hole → 3`, `in → 2`, `the → 2`, `there's → 2`, `Liza → 3`, and so on.
+should report `a → 3`, `bucket → 2`, `dear → 3`, `hole → 3`, `in → 2`, `the → 2`, `there's → 2`, `liza → 3`, and so on (counts are case-folded, so `Liza` is reported as `liza`).
 
 ## Suggested Apex domain mapping
 

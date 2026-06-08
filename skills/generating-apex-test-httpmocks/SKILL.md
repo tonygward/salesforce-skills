@@ -1,6 +1,6 @@
 ---
-name: generating-apex-callout-test
-description: "Generate Apex test classes for HTTP callout code using the self-shunt pattern. The test class itself implements HttpCalloutMock, capturing every outbound request in a private list and injecting status code and response body via constructor. Use this skill when writing tests for any Apex class that makes HTTP callouts (REST, SOAP, named credentials), when you need to verify the exact requests that were sent (endpoint, method, headers, body), or when you need to simulate success, failure, and error HTTP responses. Triggers on classes that call Http.send(), HttpRequest, or HttpCalloutMock. Do NOT use for non-callout tests – use the generating-apex-test skill instead."
+name: generating-apex-test-httpmocks
+description: "Generate Apex test classes for HTTP callout code using the self-shunt pattern. The test class itself implements HttpCalloutMock, capturing every outbound request in a private list and injecting status code and response body via constructor. Use this skill when writing tests for any Apex class that makes HTTP callouts (REST, SOAP, named credentials), when you need to verify the exact requests that were sent (endpoint, method, headers, body), or when you need to simulate success, failure, and error HTTP responses. Triggers on classes that call Http.send(), HttpRequest, or HttpCalloutMock. Do NOT use for non-callout tests – use the salesforce-writing-tests skill instead."
 metadata:
   version: "1.1"
 ---
@@ -253,7 +253,7 @@ Match the API version of the class under test. Default to `66.0`.
 
 ## Relationship to Base Skill
 
-This skill **extends** `generating-apex-test` (an Agentforce skill). All base skill rules apply:
+This skill **extends** `salesforce-writing-tests`. All base skill rules apply:
 
 - `Assert` class only
 - Given/When/Then structure

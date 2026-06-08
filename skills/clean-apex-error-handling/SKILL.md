@@ -1,6 +1,6 @@
 ---
 name: clean-apex-error-handling
-description: "Apply Clean Code error-handling principles to Apex. Use this skill when writing or refactoring Apex that can fail: prefer exceptions over status-code/Boolean returns, define custom exception classes that carry context, never return or pass null (return empty collections instead), separate error handling from business logic, and write the try/catch scope first. Triggers when generating callouts, DML-heavy services, @AuraEnabled methods, or any code with try/catch, and when a user asks about exceptions, null handling, or error patterns. Do NOT use for method structure generally (clean-apex-functions) or callout test mocking (generating-apex-callout-test)."
+description: "Apply Clean Code error-handling principles to Apex. Use this skill when writing or refactoring Apex that can fail: prefer exceptions over status-code/Boolean returns, define custom exception classes that carry context, never return or pass null (return empty collections instead), separate error handling from business logic, and write the try/catch scope first. Triggers when generating callouts, DML-heavy services, @AuraEnabled methods, or any code with try/catch, and when a user asks about exceptions, null handling, or error patterns. Do NOT use for method structure generally (clean-apex-functions) or callout test mocking (generating-apex-test-httpmocks)."
 metadata:
   version: "1.0"
   source: "Clean Code (Robert C. Martin), Chapter 7 — Error Handling"
@@ -129,11 +129,13 @@ A SOQL query assigned to a `List` never returns null in Apex — it returns an e
 
 Passing `null` into a method is even worse than returning it. Validate at the public boundary and throw a clear exception, rather than letting `null` propagate into the logic.
 
+Throw a typed exception, not bare `Exception` — Apex won't even let you instantiate `System.Exception` directly, and a named type lets callers catch the category they care about (rule 3).
+
 ```apex
-// Good — fail fast at the boundary
+// Good — fail fast at the boundary with a typed exception
 public void scheduleRenewal(Opportunity opportunity) {
     if (opportunity == null) {
-        throw new Exception('opportunity must not be null');
+        throw new RenewalServiceException('opportunity must not be null');
     }
     ...
 }
