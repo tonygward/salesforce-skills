@@ -3,7 +3,6 @@ name: apex-connascence
 description: "Analyse and reduce coupling in Apex and LWC using connascence — a strength-ranked taxonomy of dependency between components. Use this skill when asking how coupled two pieces of code are, why a change rippled into unexpected places, whether a dependency is fragile, or how to make code easier to change: name the kind of connascence, judge it by strength/degree/locality, and convert strong forms to weaker ones. Triggers on 'reduce coupling', 'this is fragile', 'why did changing X break Y', 'tighten/loosen the dependency', or prioritising refactors. Pairs with reviewing-apex (coupling as one smell category) and clean-apex-functions (argument objects, DRY). Do NOT use for general smell review (reviewing-apex) or authoring method structure (clean-apex-functions)."
 metadata:
   version: "1.0"
-  source: "Connascence — Meilir Page-Jones, 'What Every Programmer Should Know About Object-Oriented Design'; strength ordering and rules of degree/locality popularised by Jim Weirich — adapted to Apex"
 ---
 
 # Apex Connascence

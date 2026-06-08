@@ -3,7 +3,6 @@ name: salesforce-tdd-workflow
 description: "Drive Apex development from tests using the RED-GREEN-REFACTOR cycle. Use this skill when building new Apex behaviour test-first, when a user asks to 'TDD', 'test-drive', or 'write the test first', or when deciding what test to write next. Covers the three laws of TDD, the RGR loop, ARRANGE-ACT-ASSERT structure, writing the test in reverse order (assert first), test naming, the FIRST properties, and the four rules of simple design — all adapted to the Apex execution model and governor limits. Pairs with salesforce-tests-as-specification (test naming as living spec) and the clean-apex-* skills (code quality). Do NOT use for after-the-fact test backfilling of existing code, or for callout mock structure specifically (generating-apex-test-httpmocks)."
 metadata:
   version: "1.0"
-  source: "TDD by Beck — RED-GREEN-REFACTOR; three laws (Martin); Arrange-Act-Assert (Wake); FIRST + four rules of simple design (Martin/Beck) — adapted to Apex"
 ---
 
 # TDD for Salesforce

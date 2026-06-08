@@ -24,6 +24,9 @@ Once installed, invoke a skill by name in your Claude Code session:
 /reviewing-apex
 /apex-connascence
 /apex-solid-design
+/apex-design-patterns
+/apex-primitive-obsession
+/apex-law-of-demeter
 ```
 
 ## Skills
@@ -65,6 +68,9 @@ Adapted from *Clean Code* (Robert C. Martin) — authoring skills applied as you
 | Skill | Source | Use when |
 |---|---|---|
 | `apex-solid-design` | Robert C. Martin — SOLID | Designing class responsibilities and interfaces, making a class testable/mockable, or refactoring a class that does too much (SRP/OCP/LSP/ISP/DIP) |
+| `apex-design-patterns` | GoF / Head First — Decorator & Strategy | Behaviour needs to vary or stack at run time, a subclass tree is exploding, or a type/picklist `switch` keeps reopening — compose over inherit |
+| `apex-primitive-obsession` | Refactoring / Clean Code Ch 6 | An `Id`/`String`/`Decimal` is really a domain concept — wrap it in an immutable value object that validates once and owns its behaviour |
+| `apex-law-of-demeter` | Lieberherr & Holland / Tell-Don't-Ask | Getter or relationship chains (`a.b.c.d`) are fragile, or code asks an object for state to make a decision the object should make itself |
 
 
 ## Exercises

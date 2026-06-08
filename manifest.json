@@ -58,6 +58,21 @@
       "name": "apex-solid-design",
       "description": "Apply the SOLID object-oriented design principles to Apex — SRP/OCP/LSP/ISP/DIP, trigger/handler/service/selector layering, strategy via CMDT, and dependency injection for DML/SOQL-free unit tests",
       "path": "skills/apex-solid-design/SKILL.md"
+    },
+    {
+      "name": "apex-design-patterns",
+      "description": "Apply the Decorator and Strategy patterns to Apex and prefer composition over inheritance — swap behaviour with Strategy (via CMDT), stack behaviour with Decorator, realise the Open/Closed Principle",
+      "path": "skills/apex-design-patterns/SKILL.md"
+    },
+    {
+      "name": "apex-primitive-obsession",
+      "description": "Replace raw primitives that carry domain meaning with small, immutable Apex value objects — validate on construction, attract behaviour to the type, group data clumps; primitive obsession as connascence of meaning",
+      "path": "skills/apex-primitive-obsession/SKILL.md"
+    },
+    {
+      "name": "apex-law-of-demeter",
+      "description": "Apply the Law of Demeter and Tell-Don't-Ask to Apex — avoid train-wreck getter/relationship chains, command objects instead of querying their state, keep behaviour with the data it concerns",
+      "path": "skills/apex-law-of-demeter/SKILL.md"
     }
   ]
 }

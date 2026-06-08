@@ -1,0 +1,99 @@
+---
+name: apex-law-of-demeter
+description: "Apply the Law of Demeter and Tell-Don't-Ask to Apex — don't reach through objects, and command collaborators instead of querying their internals to decide. Use this skill when code chains accessors across several objects (a.b.c.d), when SObject relationship traversal walks deep into related records, when a method pulls data out of an object only to make a decision the object could make itself, or when you want to reduce the ripple from a structural change: talk only to immediate collaborators, and tell objects what to do rather than asking for their state. Triggers on 'train wreck', 'this getter chain is fragile', 'why did changing X break this', 'reduce coupling to internals', 'move this logic onto the object', or 'tell don't ask'. Pairs with apex-connascence (chains multiply connascence) and apex-primitive-obsession (give behaviour a home). Do NOT use for general smell review (reviewing-apex) or method-internal structure (clean-apex-functions)."
+metadata:
+  version: "1.0"
+---
+
+# Apex Law of Demeter
+
+The Law of Demeter — *"don't talk to strangers"* — says a method should only call methods on: itself, its own fields, its parameters, and objects it creates. It should **not** reach *through* one object to get at another and call methods on that. The everyday symptom is the **train wreck**: `order.getCustomer().getAddress().getCountry().getCode()`. Each `.` past the first couples the caller to a structure it has no business knowing.
+
+Its behavioural twin is **Tell, Don't Ask**: don't pull state out of an object to make a decision the object is better placed to make — *tell* it to act. Both push behaviour toward the data it operates on, which is exactly where `apex-primitive-obsession` wants it too.
+
+---
+
+## Why it bites in Apex
+
+- **Relationship traversal is a train wreck generator.** `opp.Account.Owner.Manager.Name` couples the caller to four objects and the entire relationship path between them; reparent or restructure any link and every such chain breaks — and the compiler won't always warn you.
+- **Each extra `.` multiplies connascence.** A chain spreads *connascence of name and type* across every intermediate object (`apex-connascence`); a change to any hop ripples to the caller. One dot per concept keeps that ripple short.
+- **Ask-then-decide scatters policy.** Logic that should live on a class ends up in callers and services that interrogate it, producing the anemic-object / feature-envy smell `reviewing-apex` flags.
+
+A clarification specific to Apex: a **single** SObject query that *projects* related fields (`SELECT Account.Owner.Name FROM Opportunity`) is a legitimate, bulk-friendly query — that's the database doing a join, not your Apex walking objects. Demeter is about **chained method/relationship calls in code paths and logic**, not about which fields one SOQL statement selects. The smell is traversal *threaded through business logic*, especially repeated per record.
+
+---
+
+## Rules
+
+### 1. One dot per concept — don't reach through objects
+
+Call methods on your immediate collaborators only. If you need something two hops away, ask the nearest object to provide it (or to do the work), so the path stays the collaborator's secret.
+
+```apex
+// Bad — train wreck: caller knows Order → Customer → Address → Country
+String code = order.getCustomer().getAddress().getCountry().getCode();
+if (code == 'GB') { applyUkTax(order); }
+
+// Good — ask the immediate collaborator; the path is hidden
+if (order.isUkBased()) { applyUkTax(order); }
+
+// inside Order:
+public Boolean isUkBased() {
+    return customer.isUkBased();   // Order talks only to Customer
+}
+```
+
+The fix is not a longer method that does the same walk in one place — it is **delegation**: each object answers for what it owns and forwards to the next.
+
+### 2. Tell, Don't Ask — command, don't interrogate
+
+If you find yourself getting an object's data, deciding something, then acting on that object, the decision belongs *inside* the object. Replace the query-and-branch with a command.
+
+```apex
+// Bad — pull the total out, decide outside, push a change back in
+if (cart.getTotal() > 100) {
+    cart.setDiscount(cart.getTotal() * 0.1);
+}
+
+// Good — tell the cart; it owns the rule
+cart.applyBulkDiscount();
+
+// inside Cart:
+public void applyBulkDiscount() {
+    if (total > 100) { discount = total * 0.1; }
+}
+```
+
+This keeps related data and the rules about it together (high cohesion), and it removes the temporal coupling of "remember to set the discount after reading the total."
+
+### 3. Distinguish objects from data structures
+
+Tell-Don't-Ask applies to **objects** (behaviour-rich, hide their data). It does *not* apply to genuine **data structures / DTOs** — SObjects, wrapper records, `@AuraEnabled` response shapes — whose whole purpose is to expose fields. Reading `account.AnnualRevenue` is fine; an SObject is a data structure. The smell is *asking a behaviour-rich object for its internals to make its decision for it*. Don't add ceremony to bags of data, and don't let real domain objects degrade into bags of data (`reviewing-apex` — anemic domain model).
+
+### 4. Where the law genuinely bends
+
+- **SOQL field projection** across relationships in one query is allowed and preferred — it is a join, not a code-path chain (see above).
+- **Fluent builders** (`new Query().selectField(x).whereEquals(y).build()`) return `this` each call; that is one object talking to itself, not a Demeter violation.
+- **Standard library chains** on `String`/`List`/`Map` are idiomatic and not the target.
+
+The law targets reaching across *your own domain's* collaborators in logic, not every chained call in the language.
+
+---
+
+## Apex-Specific Notes
+
+- **Wrap deep relationship logic on a domain class.** If business rules repeatedly walk `Opp.Account.Owner...`, add an `OpportunityModel`/domain wrapper exposing `isOwnedBySenior()` so the traversal lives in one place and trigger/service code tells, not walks.
+- **Query the path once, pass the answer.** Project the related fields you need in a single bulk SOQL, then have objects expose intent-revealing methods over that data — never re-traverse per record in a loop (governor limits *and* Demeter).
+- **Behaviour belongs with the value.** A getter chain that ends in a comparison (`...getCountry().getCode() == 'GB'`) usually means the concept (`Country`) should own that question — combine with `apex-primitive-obsession` to give it a home.
+- **SObjects stay data structures.** Don't wrap every SObject field access; do consolidate the *decisions* made from those fields onto a domain class.
+
+---
+
+## Quick Checklist
+
+- [ ] No train wrecks — methods call only self, own fields, parameters, and objects they create
+- [ ] Multi-hop needs answered by **delegation**, not a chain reproduced in one method
+- [ ] Query-then-decide-then-act on the same object replaced by a **command** on it (Tell, Don't Ask)
+- [ ] Decisions live **with the data** they concern (high cohesion, no feature envy)
+- [ ] Real DTOs/SObjects left as data structures — no ceremony, but no domain logic leaking into them either
+- [ ] Cross-relationship reads done as a **single SOQL projection**, not per-record traversal in code
