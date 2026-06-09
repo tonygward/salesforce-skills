@@ -1,6 +1,6 @@
 ---
 name: salesforce-naming-things
-description: Naming and readability conventions for Salesforce code (Apex and LWC) — Clean Code principles applied to Apex classes, methods, variables, constants, LWC components, and test methods. Use when naming or renaming anything in Apex or LWC, or when reviewing code for clarity. Do NOT use for comment style (salesforce-code-comments) or method structure (clean-apex-functions).
+description: Naming and readability conventions for Salesforce code (Apex and LWC) — Clean Code principles applied to Apex classes, methods, variables, constants, LWC components, and test methods. Use when naming or renaming anything in Apex or LWC, or when reviewing code for clarity. Do NOT use for comment style (salesforce-code-comments) or method structure (clean-salesforce-functions).
 ---
 
 # Naming Things in Salesforce

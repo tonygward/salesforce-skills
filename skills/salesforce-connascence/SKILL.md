@@ -1,13 +1,13 @@
 ---
-name: apex-connascence
-description: "Analyse and reduce coupling in Apex and LWC using connascence — a strength-ranked taxonomy of dependency between components. Use this skill when asking how coupled two pieces of code are, why a change rippled into unexpected places, whether a dependency is fragile, or how to make code easier to change: name the kind of connascence, judge it by strength/degree/locality, and convert strong forms to weaker ones. Triggers on 'reduce coupling', 'this is fragile', 'why did changing X break Y', 'tighten/loosen the dependency', or prioritising refactors. Pairs with reviewing-apex (coupling as one smell category) and clean-apex-functions (argument objects, DRY). Do NOT use for general smell review (reviewing-apex) or authoring method structure (clean-apex-functions)."
+name: salesforce-connascence
+description: "Analyse and reduce coupling in Apex and LWC using connascence — a strength-ranked taxonomy of dependency between components. Use this skill when asking how coupled two pieces of code are, why a change rippled into unexpected places, whether a dependency is fragile, or how to make code easier to change: name the kind of connascence, judge it by strength/degree/locality, and convert strong forms to weaker ones. Triggers on 'reduce coupling', 'this is fragile', 'why did changing X break Y', 'tighten/loosen the dependency', or prioritising refactors. Pairs with reviewing-apex (coupling as one smell category) and clean-salesforce-functions (argument objects, DRY). Do NOT use for general smell review (reviewing-apex) or authoring method structure (clean-salesforce-functions)."
 metadata:
   version: "1.0"
 ---
 
-# Apex Connascence
+# Salesforce Connascence
 
-Two components are **connascent** if changing one forces a change in the other to keep the system correct. Connascence is a vocabulary for coupling that lets you *name* a dependency, *rank* how fragile it is, and *aim* a refactor — always toward a weaker form. It underpins many Clean Code rules: an argument object (`clean-apex-functions`) is just converting connascence of *position* into connascence of *name*; replacing a magic picklist string with a constant converts connascence of *meaning* into connascence of *name*.
+Two components are **connascent** if changing one forces a change in the other to keep the system correct. Connascence is a vocabulary for coupling that lets you *name* a dependency, *rank* how fragile it is, and *aim* a refactor — always toward a weaker form. It underpins many Clean Code rules: an argument object (`clean-salesforce-functions`) is just converting connascence of *position* into connascence of *name*; replacing a magic picklist string with a constant converts connascence of *meaning* into connascence of *name*.
 
 ---
 
@@ -84,7 +84,7 @@ for (Account a : Trigger.new) { a.Rating = 'Hot'; }
 ## How this relates to the other skills
 
 - **`reviewing-apex`** lists coupling as one smell category; this skill is the strength-ranked lens for *prioritising* those findings (lead with the strong, non-local, high-degree ones).
-- **`clean-apex-functions`** — argument objects and DRY are CoP→CoN and CoA reductions; flag arguments are CoM.
+- **`clean-salesforce-functions`** — argument objects and DRY are CoP→CoN and CoA reductions; flag arguments are CoM.
 - **`salesforce-naming-things`** — CoN is the destination of almost every conversion, so good names are what make weak coupling readable.
 
 ---

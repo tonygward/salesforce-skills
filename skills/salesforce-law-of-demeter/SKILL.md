@@ -1,22 +1,24 @@
 ---
-name: apex-law-of-demeter
-description: "Apply the Law of Demeter and Tell-Don't-Ask to Apex — don't reach through objects, and command collaborators instead of querying their internals to decide. Use this skill when code chains accessors across several objects (a.b.c.d), when SObject relationship traversal walks deep into related records, when a method pulls data out of an object only to make a decision the object could make itself, or when you want to reduce the ripple from a structural change: talk only to immediate collaborators, and tell objects what to do rather than asking for their state. Triggers on 'train wreck', 'this getter chain is fragile', 'why did changing X break this', 'reduce coupling to internals', 'move this logic onto the object', or 'tell don't ask'. Pairs with apex-connascence (chains multiply connascence) and apex-primitive-obsession (give behaviour a home). Do NOT use for general smell review (reviewing-apex) or method-internal structure (clean-apex-functions)."
+name: salesforce-law-of-demeter
+description: "Apply the Law of Demeter and Tell-Don't-Ask to Salesforce code — Apex and LWC JavaScript. Don't reach through objects, and command collaborators instead of querying their internals to decide. Use this skill when code chains accessors across several objects (a.b.c.d), when SObject relationship traversal walks deep into related records, when an LWC reaches deep into @wire data or another component's internals, when a method pulls data out of an object only to make a decision the object could make itself, or when you want to reduce the ripple from a structural change: talk only to immediate collaborators, and tell objects what to do rather than asking for their state. Triggers on 'train wreck', 'this getter chain is fragile', 'why did changing X break this', 'reduce coupling to internals', 'move this logic onto the object', or 'tell don't ask'. Pairs with salesforce-connascence (chains multiply connascence) and salesforce-primitive-obsession (give behaviour a home). Do NOT use for general smell review (reviewing-apex) or method-internal structure (clean-salesforce-functions)."
 metadata:
-  version: "1.0"
+  version: "2.0"
 ---
 
-# Apex Law of Demeter
+# Salesforce Law of Demeter
 
 The Law of Demeter — *"don't talk to strangers"* — says a method should only call methods on: itself, its own fields, its parameters, and objects it creates. It should **not** reach *through* one object to get at another and call methods on that. The everyday symptom is the **train wreck**: `order.getCustomer().getAddress().getCountry().getCode()`. Each `.` past the first couples the caller to a structure it has no business knowing.
 
-Its behavioural twin is **Tell, Don't Ask**: don't pull state out of an object to make a decision the object is better placed to make — *tell* it to act. Both push behaviour toward the data it operates on, which is exactly where `apex-primitive-obsession` wants it too.
+Its behavioural twin is **Tell, Don't Ask**: don't pull state out of an object to make a decision the object is better placed to make — *tell* it to act. Both push behaviour toward the data it operates on, which is exactly where `salesforce-primitive-obsession` wants it too.
+
+The Apex examples below carry the principle; the **LWC (JavaScript) Notes** section translates it to component code, where the same train wreck appears in templates and `@wire` traversal.
 
 ---
 
 ## Why it bites in Apex
 
 - **Relationship traversal is a train wreck generator.** `opp.Account.Owner.Manager.Name` couples the caller to four objects and the entire relationship path between them; reparent or restructure any link and every such chain breaks — and the compiler won't always warn you.
-- **Each extra `.` multiplies connascence.** A chain spreads *connascence of name and type* across every intermediate object (`apex-connascence`); a change to any hop ripples to the caller. One dot per concept keeps that ripple short.
+- **Each extra `.` multiplies connascence.** A chain spreads *connascence of name and type* across every intermediate object (`salesforce-connascence`); a change to any hop ripples to the caller. One dot per concept keeps that ripple short.
 - **Ask-then-decide scatters policy.** Logic that should live on a class ends up in callers and services that interrogate it, producing the anemic-object / feature-envy smell `reviewing-apex` flags.
 
 A clarification specific to Apex: a **single** SObject query that *projects* related fields (`SELECT Account.Owner.Name FROM Opportunity`) is a legitimate, bulk-friendly query — that's the database doing a join, not your Apex walking objects. Demeter is about **chained method/relationship calls in code paths and logic**, not about which fields one SOQL statement selects. The smell is traversal *threaded through business logic*, especially repeated per record.
@@ -80,11 +82,36 @@ The law targets reaching across *your own domain's* collaborators in logic, not 
 
 ---
 
+## LWC (JavaScript) Notes
+
+The law bites just as hard in components — the train wreck moves into templates and wired data.
+
+- **Template train wrecks.** `{record.data.fields.Account.value.Owner.Name}` couples the markup to the entire SObject/UI-API shape; one structural change and the template silently renders blank. Expose a flat, intent-revealing getter and bind to that.
+
+```js
+// Bad — template reaches through the whole UI-API graph
+//   <p>{record.data.fields.Owner.value.fields.Name.value}</p>
+
+// Good — one getter owns the path; the template talks to its own component
+get ownerName() {
+  return this.record?.fields?.Owner?.value?.fields?.Name?.value;
+}
+//   <p>{ownerName}</p>
+```
+
+The getter still walks the path, but it does so in **one place the component owns**, so a UI-API change is a one-line fix, not a hunt across markup. Optional chaining (`?.`) handles the partial-load reality of wired data.
+
+- **Don't reach into child components.** Querying a child and walking its internals — `this.template.querySelector('c-child').state.items.length` — is a cross-component train wreck. Instead, **tell** the child via a public `@api` method (`child.refresh()`) or let it **tell** the parent via a `CustomEvent`. Parents command children; children notify parents. Never read a child's private fields.
+- **Tell, Don't Ask across components.** If a parent reads a child's data, decides, then pushes a change back into the child, the decision belongs in the child. Give the child an `@api` command (`cart.applyBulkDiscount()`) and let it own the rule — the same move as the Apex `Cart` above.
+- **Wire/Apex data is a data structure.** Reading fields off a wired record or an `@AuraEnabled` response shape is fine — these are DTOs, not behaviour-rich objects. The smell is *threading deep traversal through component logic*, not accessing a field. Flatten the access into a getter and keep decisions on the component (or in a shared module), not smeared across handlers and markup.
+
+---
+
 ## Apex-Specific Notes
 
 - **Wrap deep relationship logic on a domain class.** If business rules repeatedly walk `Opp.Account.Owner...`, add an `OpportunityModel`/domain wrapper exposing `isOwnedBySenior()` so the traversal lives in one place and trigger/service code tells, not walks.
 - **Query the path once, pass the answer.** Project the related fields you need in a single bulk SOQL, then have objects expose intent-revealing methods over that data — never re-traverse per record in a loop (governor limits *and* Demeter).
-- **Behaviour belongs with the value.** A getter chain that ends in a comparison (`...getCountry().getCode() == 'GB'`) usually means the concept (`Country`) should own that question — combine with `apex-primitive-obsession` to give it a home.
+- **Behaviour belongs with the value.** A getter chain that ends in a comparison (`...getCountry().getCode() == 'GB'`) usually means the concept (`Country`) should own that question — combine with `salesforce-primitive-obsession` to give it a home.
 - **SObjects stay data structures.** Don't wrap every SObject field access; do consolidate the *decisions* made from those fields onto a domain class.
 
 ---

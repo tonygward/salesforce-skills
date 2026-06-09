@@ -1,6 +1,6 @@
 ---
 name: salesforce-code-comments
-description: When and how to comment Salesforce code (Apex and LWC) — the why-not-how rule, legitimate vs. noise comments, ApexDoc/JSDoc on public APIs, and what to delete. Use when writing, reviewing, or cleaning up comments in Apex or LWC. Do NOT use for naming (salesforce-naming-things) or method structure (clean-apex-functions).
+description: When and how to comment Salesforce code (Apex and LWC) — the why-not-how rule, legitimate vs. noise comments, ApexDoc/JSDoc on public APIs, and what to delete. Use when writing, reviewing, or cleaning up comments in Apex or LWC. Do NOT use for naming (salesforce-naming-things) or method structure (clean-salesforce-functions).
 ---
 
 # Comments in Salesforce Code

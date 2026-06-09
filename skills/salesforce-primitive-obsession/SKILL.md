@@ -1,15 +1,17 @@
 ---
-name: apex-primitive-obsession
-description: "Replace raw primitives that stand in for domain concepts with small, immutable Apex value objects. Use this skill when an Id, String, Decimal, or Boolean is carrying domain meaning (a record Id, a picklist value, an email, a money amount, a percentage), when the same primitive-plus-validation appears in several places, or when related primitives always travel together: wrap the concept in a class that validates on construction, is immutable, and attracts the behaviour that belongs to it. Triggers on 'this String is really an X', 'magic picklist value', 'validate this in one place', 'these fields always go together', 'make this immutable', or 'stop passing raw Ids around'. Ties to apex-connascence (primitive obsession is connascence of meaning) and clean-apex-functions (argument objects, value objects). Do NOT use for naming-only changes (salesforce-naming-things) or method structure (clean-apex-functions)."
+name: salesforce-primitive-obsession
+description: "Replace raw primitives that stand in for domain concepts with small, immutable value objects — in Apex classes and LWC JavaScript. Use this skill when an Id, String, Decimal, or Boolean (or a JS string/number) is carrying domain meaning (a record Id, a picklist value, an email, a money amount, a percentage), when the same primitive-plus-validation appears in several places, or when related primitives always travel together: wrap the concept in a class/module that validates on construction, is immutable, and attracts the behaviour that belongs to it. Triggers on 'this String is really an X', 'magic picklist value', 'validate this in one place', 'these fields always go together', 'make this immutable', or 'stop passing raw Ids around'. Ties to salesforce-connascence (primitive obsession is connascence of meaning) and clean-salesforce-functions (argument objects, value objects). Do NOT use for naming-only changes (salesforce-naming-things) or method structure (clean-salesforce-functions)."
 metadata:
-  version: "1.0"
+  version: "2.0"
 ---
 
-# Apex Primitive Obsession
+# Salesforce Primitive Obsession
 
 Primitive obsession is using a `String`, `Decimal`, `Id`, or `Boolean` to represent a concept that deserves its own type — an email, a money amount, a country code, an account tier. The primitive carries no rules and no behaviour, so the validation and logic that belong *to the concept* get smeared across every caller. The fix is a **value object**: a small, immutable class that validates once on construction and becomes the home for that concept's behaviour.
 
-This is the same problem `apex-connascence` calls **connascence of meaning** — every place that knows `'Active'` is the live status, or that a 9-char string is a country code, is coupled by a shared convention. Wrapping the concept converts it to the far weaker **connascence of name** (everyone just depends on the type).
+This applies to LWC JavaScript too, though the idiom differs — JS value objects are small classes or frozen factory objects, and the highest-value LWC move is usually replacing scattered magic picklist/status strings with shared, named constants. The Apex examples carry the principle; the **LWC (JavaScript) Notes** section translates it.
+
+This is the same problem `salesforce-connascence` calls **connascence of meaning** — every place that knows `'Active'` is the live status, or that a 9-char string is a country code, is coupled by a shared convention. Wrapping the concept converts it to the far weaker **connascence of name** (everyone just depends on the type).
 
 ---
 
@@ -83,7 +85,7 @@ Immutability buys you: safe sharing (no caller can corrupt your copy), easy reas
 
 ### 3. Attract behaviour to the object
 
-Once a concept has a type, move the logic that operates on it *onto* the type. This is where primitive obsession meets **Tell, Don't Ask** (`apex-law-of-demeter`) — instead of asking for the raw value and deciding outside, tell the object to do the work.
+Once a concept has a type, move the logic that operates on it *onto* the type. This is where primitive obsession meets **Tell, Don't Ask** (`salesforce-law-of-demeter`) — instead of asking for the raw value and deciding outside, tell the object to do the work.
 
 ```apex
 // Bad — logic about percentages lives on every caller
@@ -103,7 +105,7 @@ public class Percentage {
 
 ### 4. Group primitives that travel together
 
-When the same cluster of primitives is passed around as a set — street, city, postcode, country — that clump *is* a concept. Make it one. (This is the argument-object move from `clean-apex-functions`, applied to data that recurs across the codebase, not just one signature.)
+When the same cluster of primitives is passed around as a set — street, city, postcode, country — that clump *is* a concept. Make it one. (This is the argument-object move from `clean-salesforce-functions`, applied to data that recurs across the codebase, not just one signature.)
 
 ```apex
 // Bad — a data clump passed limb by limb
@@ -127,6 +129,44 @@ Don't wrap for the sake of it. A raw primitive is correct when:
 - The wrapper would only ever hold the value and forward it — that is ceremony, not a value object (`reviewing-apex` speculative generality).
 
 The trigger is *meaning + rules or behaviour*, not merely "it's a primitive."
+
+---
+
+## LWC (JavaScript) Notes
+
+JS has no `final` or compile-time types, so the techniques shift — but the smell and the payoff are identical.
+
+- **Magic strings are the #1 case.** Picklist/status/event-name literals (`'Closed Won'`, `'Active'`, `recordupdated`) sprinkled across components couple every one to a convention. Hoist them into a shared constants module and import — one rename, one edit, and a typo becomes an undefined import rather than a silent miss.
+
+```js
+// Bad — the literal is duplicated across components and templates
+if (this.opportunity.StageName === 'Closed Won') { ... }
+
+// Good — one named source of truth, imported where needed
+import { STAGE } from 'c/opportunityConstants';
+if (this.opportunity.StageName === STAGE.CLOSED_WON) { ... }
+```
+
+- **Value objects as frozen factories.** When a concept has rules or behaviour, wrap it. Validate in the constructor/factory and `Object.freeze` to get immutability, since JS has no `final`.
+
+```js
+// Good — invalid state is unrepresentable; behaviour lives on the concept
+export function money(amount, currency) {
+  if (amount == null || !currency) throw new Error('amount and currency required');
+  return Object.freeze({
+    amount, currency,
+    plus(other) {
+      if (other.currency !== currency) throw new Error('Currency mismatch');
+      return money(amount + other.amount, currency);   // returns a new value
+    },
+    format() { return `${currency} ${amount.toFixed(2)}`; },
+  });
+}
+```
+
+- **Attract behaviour, don't smear it.** Percentage/discount/formatting math repeated across getters and handlers belongs on the value object or in its module — the JS form of Tell, Don't Ask (`salesforce-law-of-demeter`).
+- **Group data clumps into one object.** The same cluster of fields passed limb-by-limb (street/city/postcode/country, or four positional args) should become one `address` object — the argument-object move from `clean-salesforce-functions`, and idiomatic as a destructured options object in JS.
+- **Don't over-wrap.** A label, a CSS class string, a loop index, or a raw value passed straight to an `@AuraEnabled` call has no rules — leave it primitive. The trigger is *meaning + rules or behaviour*, not "it's a string."
 
 ---
 

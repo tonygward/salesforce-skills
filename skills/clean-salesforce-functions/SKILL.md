@@ -1,13 +1,13 @@
 ---
-name: clean-apex-functions
-description: "Apply Clean Code function principles to Apex methods. Use this skill when writing or refactoring Apex methods, trigger handlers, or service-layer logic: keep methods small and doing one thing, one level of abstraction per method, no flag (Boolean) arguments, few parameters (prefer an argument object), no side effects, and command-query separation. Triggers when generating Apex methods, when a method grows long or takes many arguments, or when a user asks to refactor or simplify Apex logic. Do NOT use for naming-only changes (salesforce-naming-things) or error-handling structure (clean-apex-error-handling)."
+name: clean-salesforce-functions
+description: "Apply Clean Code function principles to Salesforce code — Apex methods and LWC JavaScript. Use this skill when writing or refactoring Apex methods, trigger handlers, service-layer logic, or LWC component methods, handlers, and helpers: keep functions small and doing one thing, one level of abstraction per function, no flag (Boolean) arguments, few parameters (prefer an argument/options object), no side effects, and command-query separation. Triggers when generating Apex methods or LWC JS functions, when a function grows long or takes many arguments, or when a user asks to refactor or simplify Apex or LWC logic. Do NOT use for naming-only changes (salesforce-naming-things) or error-handling structure (clean-apex-error-handling)."
 metadata:
-  version: "1.0"
+  version: "2.0"
 ---
 
-# Clean Apex Functions
+# Clean Salesforce Functions
 
-The first rule of methods: they should be small. The second rule: they should be smaller than that. A method should do one thing, do it well, and do it only.
+The first rule of functions: they should be small. The second rule: they should be smaller than that. A function — an Apex method or an LWC JavaScript function — should do one thing, do it well, and do it only. The principles below are language-agnostic; the Apex examples carry them, and the **LWC (JavaScript) Notes** section translates each to component code.
 
 ---
 
@@ -72,7 +72,7 @@ public class TaskRequest {
 public void createTask(TaskRequest request) { ... }
 ```
 
-In coupling terms this trades *connascence of position* (callers must remember the argument order) for the much weaker *connascence of name* — see `apex-connascence`.
+In coupling terms this trades *connascence of position* (callers must remember the argument order) for the much weaker *connascence of name* — see `salesforce-connascence`.
 
 ### 4. No flag arguments
 
@@ -131,6 +131,51 @@ Duplicated logic is a defect multiplier. Repeated SOQL field lists, repeated val
 ### 8. Prefer exceptions to error-code returns
 
 Returning status flags forces the caller to check immediately and clutters call sites. Throw instead. (Detailed handling structure is covered by `clean-apex-error-handling`.)
+
+---
+
+## LWC (JavaScript) Notes
+
+Every rule above holds for LWC JavaScript — the form just changes.
+
+- **Keep handlers thin; one thing each.** An event handler should read intent and delegate, not inline fetch-transform-render. Push logic out of `handleClick` into named helpers (or, for anything reusable/testable, a plain ES module imported into the component).
+
+```js
+// Bad — one handler fetches, filters, maps, and mutates rendered state
+handleSearch(event) {
+  const term = event.target.value.toLowerCase();
+  this.results = this.allRecords
+    .filter(r => r.Name.toLowerCase().includes(term))
+    .map(r => ({ ...r, label: `${r.Name} (${r.Industry})` }));
+}
+
+// Good — each function is one level of abstraction
+handleSearch(event) {
+  this.results = this.matching(event.target.value);
+}
+matching(term) {
+  return decorateForDisplay(filterByName(this.allRecords, term));
+}
+```
+
+- **No flag arguments — and no flag `@api` properties driving a `switch`.** `render(true)` and `<c-thing variant-flag>` that branches internally are the same smell. Split into intention-revealing methods (`showCompact()` / `showExpanded()`) or distinct, named public properties.
+- **Few parameters → an options object.** JS makes this idiomatic: `open({ recordId, mode, focusField })` beats four positional args, and a destructured options object documents itself at the call site (connascence of position → name; see `salesforce-connascence`).
+- **No side effects — beware the getter that mutates.** A reactive getter is read on every render; never let it mutate component state or fire imperative calls. Keep getters pure (Command-Query Separation), and put work that *changes* things in handlers or lifecycle hooks.
+
+```js
+// Bad — a "getter" that mutates on every render
+get displayName() {
+  this._renderCount++;            // hidden state change, runs each render
+  return this.record.Name;
+}
+
+// Good — pure query; the command lives elsewhere
+get displayName() {
+  return this.record.Name;
+}
+```
+
+- **DRY across components → shared module, not copy-paste.** Repeated formatting, validation, or constants belong in an imported utility module, not duplicated per component (the JS analogue of extracting a shared Apex method).
 
 ---
 

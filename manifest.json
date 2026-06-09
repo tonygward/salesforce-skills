@@ -35,9 +35,9 @@
       "path": "skills/generating-apex-test-httpmocks/SKILL.md"
     },
     {
-      "name": "clean-apex-functions",
-      "description": "Apply Clean Code function principles to Apex methods — small, one thing, few arguments, no flag args, no side effects, CQS",
-      "path": "skills/clean-apex-functions/SKILL.md"
+      "name": "clean-salesforce-functions",
+      "description": "Apply Clean Code function principles to Salesforce code (Apex and LWC JavaScript) — small, one thing, few arguments, no flag args, no side effects, CQS",
+      "path": "skills/clean-salesforce-functions/SKILL.md"
     },
     {
       "name": "clean-apex-error-handling",
@@ -50,29 +50,34 @@
       "path": "skills/reviewing-apex/SKILL.md"
     },
     {
-      "name": "apex-connascence",
+      "name": "salesforce-connascence",
       "description": "Analyse and reduce coupling in Apex and LWC using connascence — a strength-ranked taxonomy (name, type, meaning, position, algorithm, execution, timing, value, identity) judged by strength, degree, and locality",
-      "path": "skills/apex-connascence/SKILL.md"
+      "path": "skills/salesforce-connascence/SKILL.md"
     },
     {
-      "name": "apex-solid-design",
+      "name": "salesforce-solid-design",
       "description": "Apply the SOLID object-oriented design principles to Apex — SRP/OCP/LSP/ISP/DIP, trigger/handler/service/selector layering, strategy via CMDT, and dependency injection for DML/SOQL-free unit tests",
-      "path": "skills/apex-solid-design/SKILL.md"
+      "path": "skills/salesforce-solid-design/SKILL.md"
     },
     {
-      "name": "apex-design-patterns",
-      "description": "Apply the Decorator and Strategy patterns to Apex and prefer composition over inheritance — swap behaviour with Strategy (via CMDT), stack behaviour with Decorator, realise the Open/Closed Principle",
-      "path": "skills/apex-design-patterns/SKILL.md"
+      "name": "salesforce-design-patterns",
+      "description": "Apply the Decorator and Strategy patterns to Apex and LWC JavaScript and prefer composition over inheritance — Strategy via CMDT or a JS config map, Decorator/slots to stack behaviour, realise the Open/Closed Principle",
+      "path": "skills/salesforce-design-patterns/SKILL.md"
     },
     {
-      "name": "apex-primitive-obsession",
-      "description": "Replace raw primitives that carry domain meaning with small, immutable Apex value objects — validate on construction, attract behaviour to the type, group data clumps; primitive obsession as connascence of meaning",
-      "path": "skills/apex-primitive-obsession/SKILL.md"
+      "name": "salesforce-primitive-obsession",
+      "description": "Replace raw primitives that carry domain meaning with small, immutable value objects in Apex and LWC JavaScript — validate on construction, attract behaviour to the type, hoist magic strings to constants, group data clumps; primitive obsession as connascence of meaning",
+      "path": "skills/salesforce-primitive-obsession/SKILL.md"
     },
     {
-      "name": "apex-law-of-demeter",
-      "description": "Apply the Law of Demeter and Tell-Don't-Ask to Apex — avoid train-wreck getter/relationship chains, command objects instead of querying their state, keep behaviour with the data it concerns",
-      "path": "skills/apex-law-of-demeter/SKILL.md"
+      "name": "salesforce-law-of-demeter",
+      "description": "Apply the Law of Demeter and Tell-Don't-Ask to Apex and LWC JavaScript — avoid train-wreck getter/relationship/template chains, command objects (and child components) instead of querying their state, keep behaviour with the data it concerns",
+      "path": "skills/salesforce-law-of-demeter/SKILL.md"
+    },
+    {
+      "name": "lwc-component-design",
+      "description": "Design Lightning Web Components with the grain of the framework — minimal @api surface, correct reactivity (reassign not mutate, getters not stored derived state), @wire vs imperative Apex, lifecycle hooks, data-down/events-up, and composition with slots and child components",
+      "path": "skills/lwc-component-design/SKILL.md"
     }
   ]
 }

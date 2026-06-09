@@ -1,6 +1,6 @@
 ---
 name: clean-apex-error-handling
-description: "Apply Clean Code error-handling principles to Apex. Use this skill when writing or refactoring Apex that can fail: prefer exceptions over status-code/Boolean returns, define custom exception classes that carry context, never return or pass null (return empty collections instead), separate error handling from business logic, and write the try/catch scope first. Triggers when generating callouts, DML-heavy services, @AuraEnabled methods, or any code with try/catch, and when a user asks about exceptions, null handling, or error patterns. Do NOT use for method structure generally (clean-apex-functions) or callout test mocking (generating-apex-test-httpmocks)."
+description: "Apply Clean Code error-handling principles to Apex. Use this skill when writing or refactoring Apex that can fail: prefer exceptions over status-code/Boolean returns, define custom exception classes that carry context, never return or pass null (return empty collections instead), separate error handling from business logic, and write the try/catch scope first. Triggers when generating callouts, DML-heavy services, @AuraEnabled methods, or any code with try/catch, and when a user asks about exceptions, null handling, or error patterns. Do NOT use for method structure generally (clean-salesforce-functions) or callout test mocking (generating-apex-test-httpmocks)."
 metadata:
   version: "1.0"
 ---

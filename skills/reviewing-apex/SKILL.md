@@ -1,6 +1,6 @@
 ---
 name: reviewing-apex
-description: "Review existing Apex against Clean Code smells and heuristics. Use this skill when asked to review, critique, assess, or find problems in Apex code, or to suggest refactors: detects duplication, dead code, magic numbers (hardcoded IDs/picklist values), feature envy, Law-of-Demeter train wrecks, God classes, oversized methods, weak tests, and naming smells. Triggers on 'review this Apex', 'code review', 'what's wrong with this class', 'refactor suggestions', or a pull-request-style assessment. Do NOT use when generating new code from scratch — use salesforce-naming-things, clean-apex-functions, salesforce-code-comments, or clean-apex-error-handling for authoring."
+description: "Review existing Apex against Clean Code smells and heuristics. Use this skill when asked to review, critique, assess, or find problems in Apex code, or to suggest refactors: detects duplication, dead code, magic numbers (hardcoded IDs/picklist values), feature envy, Law-of-Demeter train wrecks, God classes, oversized methods, weak tests, and naming smells. Triggers on 'review this Apex', 'code review', 'what's wrong with this class', 'refactor suggestions', or a pull-request-style assessment. Do NOT use when generating new code from scratch — use salesforce-naming-things, clean-salesforce-functions, salesforce-code-comments, or clean-apex-error-handling for authoring."
 metadata:
   version: "1.0"
 ---
@@ -86,7 +86,7 @@ For coupling findings, name the *kind* and rank by **strength × degree × local
 | Value (CoV) | Fields that must change together (date ranges, totals) scattered | Encapsulate the invariant in one place |
 | Identity (CoI) | Mutating a re-queried record instead of `Trigger.new` → silent lost update | Operate on the single persisted instance |
 
-**Two rules to apply:** strong connascence is only acceptable when it is *local* (within one short method) — flag it across class/integration boundaries; and collapse **high-degree** coupling (a value known in forty places) by routing everyone through one definition. The dynamic forms (CoE/CoTi/CoV/CoI) fail silently in production, so rank them above the static ones. For the full taxonomy and conversions, see `apex-connascence`.
+**Two rules to apply:** strong connascence is only acceptable when it is *local* (within one short method) — flag it across class/integration boundaries; and collapse **high-degree** coupling (a value known in forty places) by routing everyone through one definition. The dynamic forms (CoE/CoTi/CoV/CoI) fail silently in production, so rank them above the static ones. For the full taxonomy and conversions, see `salesforce-connascence`.
 
 ---
 
@@ -112,7 +112,7 @@ Methods should use the class's instance variables. When a subset of methods uses
 | G30 — Does more than one thing | Multiple levels of abstraction in one method |
 | G34 — Descends more than one level of abstraction | Mixing policy and mechanics |
 
-*(For fixes, defer to `clean-apex-functions`.)*
+*(For fixes, defer to `clean-salesforce-functions`.)*
 
 ---
 

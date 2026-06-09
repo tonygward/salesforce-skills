@@ -19,14 +19,15 @@ Once installed, invoke a skill by name in your Claude Code session:
 /salesforce-tests-as-specification
 /salesforce-tdd-workflow
 /generating-apex-test-httpmocks
-/clean-apex-functions
+/clean-salesforce-functions
 /clean-apex-error-handling
 /reviewing-apex
-/apex-connascence
-/apex-solid-design
-/apex-design-patterns
-/apex-primitive-obsession
-/apex-law-of-demeter
+/salesforce-connascence
+/salesforce-solid-design
+/salesforce-design-patterns
+/salesforce-primitive-obsession
+/salesforce-law-of-demeter
+/lwc-component-design
 ```
 
 ## Skills
@@ -47,13 +48,13 @@ Once installed, invoke a skill by name in your Claude Code session:
 | `salesforce-tdd-workflow` | TDD workflow for Salesforce — red/green/refactor, three laws of TDD, one change at a time |
 | `generating-apex-test-httpmocks` | Generate Apex test classes for HTTP callout code using the self-shunt pattern |
 
-### Clean Code for Apex
+### Clean Code
 
 Adapted from *Clean Code* (Robert C. Martin) — authoring skills applied as you write, `reviewing-apex` for existing code.
 
 | Skill | Source | Use when |
 |---|---|---|
-| `clean-apex-functions` | Ch 3 — Functions | Writing or refactoring methods, handlers, service logic |
+| `clean-salesforce-functions` | Ch 3 — Functions | Writing or refactoring Apex methods or LWC JS functions/handlers — small, one thing, few args |
 | `clean-apex-error-handling` | Ch 7 — Error Handling | Callouts, DML services, exceptions, null handling |
 | `reviewing-apex` | Ch 17 + 6, 9, 10 | Reviewing or critiquing existing Apex code |
 
@@ -61,16 +62,24 @@ Adapted from *Clean Code* (Robert C. Martin) — authoring skills applied as you
 
 | Skill | Source | Use when |
 |---|---|---|
-| `apex-connascence` | Page-Jones / Weirich — connascence | Judging how coupled code is, why a change rippled, or prioritising coupling refactors by strength/degree/locality |
+| `salesforce-connascence` | Page-Jones / Weirich — connascence | Judging how coupled code is, why a change rippled, or prioritising coupling refactors by strength/degree/locality |
 
 ### Design
 
 | Skill | Source | Use when |
 |---|---|---|
-| `apex-solid-design` | Robert C. Martin — SOLID | Designing class responsibilities and interfaces, making a class testable/mockable, or refactoring a class that does too much (SRP/OCP/LSP/ISP/DIP) |
-| `apex-design-patterns` | GoF / Head First — Decorator & Strategy | Behaviour needs to vary or stack at run time, a subclass tree is exploding, or a type/picklist `switch` keeps reopening — compose over inherit |
-| `apex-primitive-obsession` | Refactoring / Clean Code Ch 6 | An `Id`/`String`/`Decimal` is really a domain concept — wrap it in an immutable value object that validates once and owns its behaviour |
-| `apex-law-of-demeter` | Lieberherr & Holland / Tell-Don't-Ask | Getter or relationship chains (`a.b.c.d`) are fragile, or code asks an object for state to make a decision the object should make itself |
+| `salesforce-solid-design` | Robert C. Martin — SOLID | Designing class responsibilities and interfaces, making a class testable/mockable, or refactoring a class that does too much (SRP/OCP/LSP/ISP/DIP) |
+| `salesforce-design-patterns` | GoF / Head First — Decorator & Strategy | Behaviour needs to vary or stack at run time (Apex or LWC), a subclass tree / component-variant set is exploding, or a type/picklist `switch` keeps reopening — compose over inherit |
+| `salesforce-primitive-obsession` | Refactoring / Clean Code Ch 6 | An `Id`/`String`/`Decimal` (or a JS magic string) is really a domain concept — wrap it in an immutable value object, or hoist literals to constants |
+| `salesforce-law-of-demeter` | Lieberherr & Holland / Tell-Don't-Ask | Getter, relationship, or LWC template/`@wire` chains (`a.b.c.d`) are fragile, or code asks an object/child component for state to make a decision it should make itself |
+
+### Lightning Web Components
+
+| Skill | Source | Use when |
+|---|---|---|
+| `lwc-component-design` | LWC framework idioms | Building or refactoring an LWC — `@api` surface, reactivity, `@wire` vs imperative Apex, lifecycle hooks, data-down/events-up, composition with slots |
+
+> **Apex and LWC:** naming, comments, tests, `clean-salesforce-functions`, `salesforce-connascence`, `salesforce-design-patterns`, `salesforce-primitive-obsession`, `salesforce-law-of-demeter`, and `lwc-component-design` all apply to both Apex and LWC JavaScript. **Apex-specific:** `salesforce-solid-design` (OO class design), `clean-apex-error-handling`, `reviewing-apex`, and `generating-apex-test-httpmocks`.
 
 
 ## Exercises
