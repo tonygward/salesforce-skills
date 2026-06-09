@@ -1,13 +1,13 @@
 ---
 name: salesforce-tdd-workflow
-description: "Drive Apex development from tests using the RED-GREEN-REFACTOR cycle. Use this skill when building new Apex behaviour test-first, when a user asks to 'TDD', 'test-drive', or 'write the test first', or when deciding what test to write next. Covers the three laws of TDD, the RGR loop, ARRANGE-ACT-ASSERT structure, writing the test in reverse order (assert first), test naming, the FIRST properties, and the four rules of simple design — all adapted to the Apex execution model and governor limits. Pairs with salesforce-tests-as-specification (test naming as living spec) and the clean-apex-* skills (code quality). Do NOT use for after-the-fact test backfilling of existing code, or for callout mock structure specifically (generating-apex-test-httpmocks)."
+description: "Drive Apex development from tests using the RED-GREEN-REFACTOR cycle. Use this skill when building new Apex behaviour test-first, when a user asks to 'TDD', 'test-drive', or 'write the test first', or when deciding what test to write next. Covers the three laws of TDD, the RGR loop, ARRANGE-ACT-ASSERT structure, writing the test in reverse order (assert first), test naming, the FIRST properties, and the four rules of simple design — all adapted to the Apex execution model and governor limits. Pairs with salesforce-tests-as-specification (test naming as living spec) and the code-quality skills (clean-salesforce-functions, clean-apex-error-handling). Do NOT use for after-the-fact test backfilling of existing code, or for callout mock structure specifically (generating-apex-test-httpmocks)."
 metadata:
   version: "1.0"
 ---
 
 # TDD for Salesforce
 
-This skill is about *process* — the order in which you write code and tests, what test to write next, and when to stop. Test-class mechanics live in `salesforce-writing-tests`; code quality lives in the `clean-apex-*` skills. This is the loop that ties them together.
+This skill is about *process* — the order in which you write code and tests, what test to write next, and when to stop. Test-class mechanics live in `salesforce-writing-tests`; code quality lives in `clean-salesforce-functions` and `clean-apex-error-handling`. This is the loop that ties them together.
 
 **The single rule everything else serves: write no production code without a failing test.**
 
@@ -36,7 +36,7 @@ In Apex: a test that references a class or method that does not yet exist is a c
 - Commit whatever design sins you must to get green. This is allowed *because* the next phase cleans them up.
 
 ### REFACTOR — make it the simplest design that passes
-- With a green bar protecting you, remove the sins. Apply the four rules of simple design (below) and the `clean-apex-*` rules.
+- With a green bar protecting you, remove the sins. Apply the four rules of simple design (below) and the `clean-salesforce-functions` / `clean-apex-error-handling` rules.
 - Run the tests after every change. Refactoring with a red bar is just editing.
 
 > Run the full test suite after every green and every refactor.

@@ -24,7 +24,7 @@ Work each one with the `salesforce-tdd-workflow` skill open:
 - Test **both sides of every boundary** — these katas are mostly boundaries.
 - Let the second or third rule *force* a refactor (strategy table, parser, availability model); don't pre-build it.
 
-They also exercise the `clean-apex-*` skills: naming, small single-responsibility methods, no magic numbers (prices belong in constants/Custom Metadata), and error handling that throws typed exceptions instead of returning sentinels.
+They also exercise the clean-code skills (`salesforce-naming-things`, `clean-salesforce-functions`, `clean-apex-error-handling`): naming, small single-responsibility methods, no magic numbers (prices belong in constants/Custom Metadata), and error handling that throws typed exceptions instead of returning sentinels.
 
 ## Suggested rotation
 
